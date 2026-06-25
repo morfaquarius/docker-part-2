@@ -1,117 +1,181 @@
-# Домашнее задание к занятию "`Название занятия`" - `Фамилия и имя студента`
-
-
-### Инструкция по выполнению домашнего задания
-
-   1. Сделайте `fork` данного репозитория к себе в Github и переименуйте его по названию или номеру занятия, например, https://github.com/имя-вашего-репозитория/git-hw или  https://github.com/имя-вашего-репозитория/7-1-ansible-hw).
-   2. Выполните клонирование данного репозитория к себе на ПК с помощью команды `git clone`.
-   3. Выполните домашнее задание и заполните у себя локально этот файл README.md:
-      - впишите вверху название занятия и вашу фамилию и имя
-      - в каждом задании добавьте решение в требуемом виде (текст/код/скриншоты/ссылка)
-      - для корректного добавления скриншотов воспользуйтесь [инструкцией "Как вставить скриншот в шаблон с решением](https://github.com/netology-code/sys-pattern-homework/blob/main/screen-instruction.md)
-      - при оформлении используйте возможности языка разметки md (коротко об этом можно посмотреть в [инструкции  по MarkDown](https://github.com/netology-code/sys-pattern-homework/blob/main/md-instruction.md))
-   4. После завершения работы над домашним заданием сделайте коммит (`git commit -m "comment"`) и отправьте его на Github (`git push origin`);
-   5. В личном кабинете прикрепите и отправьте ссылку на решение в виде md-файла в вашем Github.
-   6. Любые вопросы по выполнению заданий спрашивайте в разделе “Вопросы по заданию” в личном кабинете.
-   
-Желаем успехов в выполнении домашнего задания!
-   
-### Дополнительные материалы, которые могут быть полезны для выполнения задания
-
-1. [Руководство по оформлению Markdown файлов](https://gist.github.com/Jekins/2bf2d0638163f1294637#Code)
-
----
+# Домашнее задание к занятию "Docker. Часть 2" - Плотников Вячеслав
 
 ### Задание 1
 
-`Приведите ответ в свободной форме........`
-
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
-
-```
-Поле для вставки кода...
-....
-....
-....
-....
-```
-
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота 1](ссылка на скриншот 1)`
-
-
+Docker Compose нужен для настройки и запуска многоконтейнерных приложений Docker с помощью одного файла конфигурации, лично мою жизнь он улучшит тем, что сэкономит часы рутины, избавит от захламления компьютера и позволит развернуть личное облако
 ---
 
 ### Задание 2
 
-`Приведите ответ в свободной форме........`
+```
+version: "3.9"
 
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
+services:
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
+networks:
+  plotnikov-vi-my-netology-hw:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
 
 ```
-Поле для вставки кода...
-....
-....
-....
-....
-```
-
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота 2](ссылка на скриншот 2)`
-
-
 ---
 
 ### Задание 3
 
-`Приведите ответ в свободной форме........`
-
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
-
 ```
-Поле для вставки кода...
-....
-....
-....
-....
-```
+prometheus:
+  image: prom/prometheus
+  container_name: plotnikov-vi-netology-prometheus
 
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота](ссылка на скриншот)`
+  restart: unless-stopped
+
+  ports:
+    - "9090:9090"
+
+  volumes:
+    - prometheus_data:/prometheus
+    - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+
+  networks:
+    - plotnikov-vi-my-netology-hw
+
+  depends_on:
+      - pushgateway
+```
+---
 
 ### Задание 4
 
-`Приведите ответ в свободной форме........`
+```
+pushgateway:
+  image: prom/pushgateway
+  container_name: plotnikov-vi-netology-pushgateway
 
-1. `Заполните здесь этапы выполнения, если требуется ....`
-2. `Заполните здесь этапы выполнения, если требуется ....`
-3. `Заполните здесь этапы выполнения, если требуется ....`
-4. `Заполните здесь этапы выполнения, если требуется ....`
-5. `Заполните здесь этапы выполнения, если требуется ....`
-6. 
+  restart: unless-stopped
+
+  ports:
+    - "9091:9091"
+
+  networks:
+    - plotnikov-vi-my-netology-hw
+```
+---
+
+### Задание 5
 
 ```
-Поле для вставки кода...
-....
-....
-....
-....
-```
+grafana:
+  image: grafana/grafana
+  container_name: plotnikov-vi-netology-grafana
 
-`При необходимости прикрепитe сюда скриншоты
-![Название скриншота](ссылка на скриншот)`
+  restart: unless-stopped
+
+  ports:
+    - "80:3000"
+
+  environment:
+    - GF_PATHS_CONFIG=/etc/grafana/custom.ini
+
+  volumes:
+    - grafana_data:/var/lib/grafana
+    - ./grafana/custom.ini:/etc/grafana/custom.ini
+
+  networks:
+    - plotnikov-vi-my-netology-hw
+
+  depends_on:
+      - prometheus
+```
+---
+
+### Задание 7
+
+```
+version: '3.8'
+
+networks:
+  plotnikov-vi-my-netology-hw:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+
+volumes:
+  prometheus_data:
+  grafana_data:
+  alertmanager_data:
+
+services:
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: plotnikov-vi-netology-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - plotnikov-vi-my-netology-hw
+    depends_on:
+      - pushgateway
+      - alertmanager
+
+  pushgateway:
+    image: prom/pushgateway:latest
+    container_name: plotnikov-vi-netology-pushgateway
+    restart: unless-stopped
+    ports:
+      - "9091:9091"
+    networks:
+      - plotnikov-vi-my-netology-hw
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: plotnikov-vi-netology-grafana
+    restart: unless-stopped
+    environment:
+      - GF_PATHS_CONFIG=/etc/grafana/custom.ini
+    volumes:
+      - ./grafana/custom.ini:/etc/grafana/custom.ini
+      - grafana_data:/var/lib/grafana
+    ports:
+      - "80:3000"  
+    networks:
+      - plotnikov-vi-my-netology-hw
+    depends_on:
+      - prometheus
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: plotnikov-vi-netology-alertmanager
+    restart: unless-stopped
+    volumes:
+      - ./alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - alertmanager_data:/alertmanager
+    ports:
+      - "9093:9093"
+    networks:
+      - plotnikov-vi-my-netology-hw
+
+```
+[Скриншот-1](https://github.com/morfaquarius/docker-part-2/main/img/img1.png)
+[Скриншот-2](https://github.com/morfaquarius/docker-part-2/main/img/img2.png)
+
+### Задание 8
+
+[Скриншот-3](https://github.com/morfaquarius/docker-part-2/main/img/img3.png)
+
+### Задание 9
+
+[Скриншот-3](https://github.com/morfaquarius/docker-part-2/main/img/img4.png)
+
+
+
