@@ -8,13 +8,7 @@ Docker Compose нужен для настройки и запуска много
 ### Задание 2
 
 ```
-version: "3.9"
-
-services:
-
-volumes:
-  prometheus_data:
-  grafana_data:
+version: '3.8'
 
 networks:
   plotnikov-vi-my-netology-hw:
@@ -22,6 +16,13 @@ networks:
     ipam:
       config:
         - subnet: 10.5.0.0/16
+
+volumes:
+  prometheus_data:
+  grafana_data:
+  alertmanager_data:
+
+services:
 
 ```
 ---
