@@ -166,16 +166,16 @@ services:
       - plotnikov-vi-my-netology-hw
 
 ```
-[Скриншот-1](https://github.com/morfaquarius/docker-part-2/blob/main/img/img1.png)
-[Скриншот-2](https://github.com/morfaquarius/docker-part-2/blob/main/img/img2.png)
+![Скриншот-1](https://github.com/morfaquarius/docker-part-2/blob/main/img/img1.png)
+![Скриншот-2](https://github.com/morfaquarius/docker-part-2/blob/main/img/img2.png)
 
 ### Задание 8
 
-[Скриншот-3](https://github.com/morfaquarius/docker-part-2/blob/main/img/img3.png)
+![Скриншот-3](https://github.com/morfaquarius/docker-part-2/blob/main/img/img3.png)
 
 ### Задание 9
 
-[Скриншот-4](https://github.com/morfaquarius/docker-part-2/blob/main/img/img4.png)
+![Скриншот-4](https://github.com/morfaquarius/docker-part-2/blob/main/img/img4.png)
 
 
 
